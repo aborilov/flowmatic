@@ -1,3 +1,17 @@
+# Copyright 2021 The Flowmatic Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 apiVersion: kfdef.apps.kubeflow.org/v1
 kind: KfDef
 metadata:
@@ -54,9 +68,18 @@ spec:
         path: metacontroller/base
     name: metacontroller
   - kustomizeConfig:
+      parameters:
+        - name: oidc_provider
+          value: http://dex.auth.svc.cluster.local:5556/dex
+        - name: oidc_redirect_uri
+          value: /login/oidc
+        - name: oidc_auth_url
+          value: /dex/auth
+        - name: application_secret
+          value: pUBnBOY80SnXgjibTYM9ZWNzY2xreNGQok
       repoRef:
-        name: manifests
-        path: stacks/kubernetes/application/oidc-authservice
+        name: flowmatic
+        path: manifests/oidc-authservice
     name: oidc-authservice
   - kustomizeConfig:
       repoRef:
